@@ -77,7 +77,7 @@ function getAllProducts() {
 //  PAGE CHECK: LISTING PAGE KE ELEMENTS SIRF TAB HANDLE KARO JAB WOH PAGE HO
 if (document.getElementById('productGrid')) {
   let allProducts = getAllProducts();
-  let filteredProducts = [...allProducts];
+  let filteredProducts = allProducts.slice(); // slice() array ki copy banata hai
   let currentFilters = { category: 'all', price: 'all' };
 
   const filterBtn = document.getElementById('filterBtn');
