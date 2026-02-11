@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Nova</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen" style="height: 510px;">
+    <!-- Header -->
+<header class="navbar">
+    <div class="container">
+        <div class="logo" style="margin-left: 6%;">Nova</div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="listing.html">All Products</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="addproduct.html">Add Product</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="user-actions" style="margin-right: 10%;">
+            <a href="cart.html" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </a>
+
+            <!-- <a href="login.html" class="login-btn" id="loginBtn">Login</a> -->
+
+            <div id="userMenu" class="relative hidden">
+                <button id="userIcon" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg overflow-hidden">
+                    </button>
+                <div id="userDropdown" class="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-xl hidden">
+                    <div class="p-3 border-b text-center">
+                        <div class="font-semibold text-gray-800" id="dropdownUserName"></div>
+                        <div class="text-xs text-gray-500" id="dropdownUserEmail"></div>
+                    </div>
+                    <div class="p-2 border-b">
+                        <label for="profileUpload" class="cursor-pointer text-blue-600 text-sm hover:underline w-full text-left px-3 py-1.5 block rounded-md hover:bg-gray-100">
+                            <i class="fas fa-camera fa-fw mr-2"></i>Change Photo
+                        </label>
+                        <input type="file" id="profileUpload" class="hidden" accept="image/*">
+                    </div>
+                    <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                        <i class="fas fa-sign-out-alt fa-fw mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+    <!-- Dashboard Container -->
+    <div class="container mx-auto px-4 py-8" style="margin-top: 100px;">
+        <!-- Not Logged In Message -->
+        <div id="notLoggedInDashboard" class="max-w-2xl mx-auto text-center bg-white rounded-lg shadow-lg p-8">
+            <div class="mb-6">
+                <i class="fas fa-user-lock text-6xl text-blue-500 mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Please Login to View Dashboard</h2>
+                <p class="text-gray-600 mb-6">You need to login to access your seller dashboard.</p>
+                <a href="login.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboardContent" class="hidden">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">My Dashboard</h1>
+                <p class="text-gray-600">Manage your products and track your sales</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <i class="fas fa-box text-blue-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Total Products</p>
+                            <p class="text-2xl font-bold text-gray-900" id="totalProducts">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-rupee-sign text-green-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Total Value</p>
+                            <p class="text-2xl font-bold text-gray-900" id="totalValue">₹0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="bg-purple-100 p-3 rounded-full">
+                            <i class="fas fa-calendar text-purple-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Member Since</p>
+                            <p class="text-lg font-bold text-gray-900" id="memberSince">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Products Section -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">My Products</h2>
+                    <!-- <a href="addproduct.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Add New Product
+                    </a> -->
+                </div>
+
+                <div id="myProductsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Products will be loaded here -->
+                </div>
+
+                <div id="noProducts" class="hidden text-center py-12">
+                    <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">No Products Yet</h3>
+                    <p class="text-gray-500 mb-4">Start selling by adding your first product!</p>
+                    <a href="addproduct.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Add Product
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Dashboard specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.pathname.includes('dashboard.html')) {
+                loadDashboard();
+            }
+        });
+
+        function loadDashboard() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userName = localStorage.getItem('userName');
+            
+            if (isLoggedIn && userName) {
+                document.getElementById('notLoggedInDashboard').classList.add('hidden');
+                document.getElementById('dashboardContent').classList.remove('hidden');
+                
+                // Update user info
+                checkLoginStatus();
+                
+                // Load user's products
+                loadMyProducts();
+                
+                // Update stats
+                updateDashboardStats();
+            } else {
+                document.getElementById('notLoggedInDashboard').classList.remove('hidden');
+                document.getElementById('dashboardContent').classList.add('hidden');
+            }
+        }
+
+        function loadMyProducts() {
+            const userProducts = JSON.parse(localStorage.getItem('userProducts') || '[]');
+            const currentUser = localStorage.getItem('userName');
+            
+            // Filter products by current user
+            const myProducts = userProducts.filter(product => product.seller === currentUser);
+            
+            const grid = document.getElementById('myProductsGrid');
+            const noProducts = document.getElementById('noProducts');
+            
+            if (myProducts.length === 0) {
+                grid.innerHTML = '';
+                noProducts.classList.remove('hidden');
+                return;
+            }
+            
+            noProducts.classList.add('hidden');
+            grid.innerHTML = '';
+            
+            myProducts.forEach(product => {
+                const productCard = createDashboardProductCard(product);
+                grid.appendChild(productCard);
+            });
+        }
+
+        function createDashboardProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'bg-gray-50 rounded-lg p-4 border';
+            
+            card.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" class="w-full h-32 object-cover rounded-md mb-3">
+                <h3 class="font-semibold text-gray-800 mb-1">${product.title}</h3>
+                <p class="text-sm text-gray-600 mb-2">${product.category}</p>
+                <p class="text-lg font-bold text-green-600 mb-3">$${product.price.toLocaleString()}</p>
+                <div class="flex gap-2">
+                    <button onclick="editProduct(${product.id})" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                        <i class="fas fa-edit mr-1"></i>Edit
+                    </button>
+                    <button onclick="deleteProduct(${product.id})" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                        <i class="fas fa-trash mr-1"></i>Delete
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function updateDashboardStats() {
+            const userProducts = JSON.parse(localStorage.getItem('userProducts') || '[]');
+            const currentUser = localStorage.getItem('userName');
+            const myProducts = userProducts.filter(product => product.seller === currentUser);
+            
+            // Total products
+            document.getElementById('totalProducts').textContent = myProducts.length;
+            
+            // Total value
+            const totalValue = myProducts.reduce((sum, product) => sum + product.price, 0);
+            document.getElementById('totalValue').textContent = '$' + totalValue.toLocaleString();
+            
+            // Member since (using first product date or registration date)
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const currentUserData = users.find(u => u.firstName + ' ' + u.lastName === currentUser);
+            if (currentUserData) {
+                const date = new Date(currentUserData.registeredDate);
+                document.getElementById('memberSince').textContent = date.toLocaleDateString();
+            }
+        }
+
+        function editProduct(productId) {
+            // Simple edit functionality - you can enhance this
+            const userProducts = JSON.parse(localStorage.getItem('userProducts') || '[]');
+            const product = userProducts.find(p => p.id === productId);
+            
+            if (product) {
+                const newTitle = prompt('Enter new title:', product.title);
+                const newPrice = prompt('Enter new price:', product.price);
+                
+                if (newTitle && newPrice) {
+                    product.title = newTitle;
+                    product.price = parseInt(newPrice);
+                    
+                    localStorage.setItem('userProducts', JSON.stringify(userProducts));
+                    loadMyProducts();
+                    updateDashboardStats();
+                    showDeleteToast('Product updated successfully!');
+                }
+            }
+        }
+    </script>
+  <footer class="bg-gray-800 text-gray-300 pt-12 mt-auto" style="margin-top: 18%">
+    <div class="container mx-auto px-4">
+        <!-- Main Footer Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-8">
+
+            <!-- Column 1: Brand Info -->
+            <div class="mb-6 md:mb-0">
+                <h3 class="text-2xl font-bold text-white mb-3">Nova</h3>
+                <p class="text-gray-400 mb-4">Your one-stop marketplace for quality Clothing, Electronics & Services.</p>
+                <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/share/171YadVXwP/" aria-label="Facebook" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/nova_makeket?igsh=eDEyNDB2MzczaTJ1" aria-label="Instagram" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="hover:text-blue-400 transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="hover:text-blue-400 transition-colors">Contact Us</a></li>
+                    <li><a href="listing.html" class="hover:text-blue-400 transition-colors">All Products</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: For Sellers -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Seller Central</h4>
+                <ul class="space-y-2">
+                    <li><a href="addproduct.html" class="hover:text-blue-400 transition-colors">Sell on Nova</a></li>
+                    <li><a href="dashboard.html" class="hover:text-blue-400 transition-colors">My Dashboard</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors">Seller Guide</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Newsletter -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Stay Updated</h4>
+                <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest deals and updates.</p>
+                <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <!-- <div class="flex">
+                        <input type="email" placeholder="Your Email" required class="w-full px-4 py-2 rounded-l-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white">
+                        <button type="submit" aria-label="Subscribe" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg font-semibold transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </footer>
+<script src="script.js"></script>
+
+
+</body>
+</html>

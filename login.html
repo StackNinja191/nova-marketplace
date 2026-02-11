@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup - Nova</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+      <header class="navbar">
+    <div class="container">
+        <div class="logo">Nova</div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="listing.html">All Products</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="addproduct.html">Add Product</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="user-actions">
+            <a href="cart.html" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </a>
+
+            <!-- <a href="login.html" class="login-btn" id="loginBtn">Login</a> -->
+
+            <div id="userMenu" class="relative hidden">
+                <button id="userIcon" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg overflow-hidden">
+                    </button>
+                <div id="userDropdown" class="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-xl hidden">
+                    <div class="p-3 border-b text-center">
+                        <div class="font-semibold text-gray-800" id="dropdownUserName"></div>
+                        <div class="text-xs text-gray-500" id="dropdownUserEmail"></div>
+                    </div>
+                    <div class="p-2 border-b">
+                        <label for="profileUpload" class="cursor-pointer text-blue-600 text-sm hover:underline w-full text-left px-3 py-1.5 block rounded-md hover:bg-gray-100">
+                            <i class="fas fa-camera fa-fw mr-2"></i>Change Photo
+                        </label>
+                        <input type="file" id="profileUpload" class="hidden" accept="image/*">
+                    </div>
+                    <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                        <i class="fas fa-sign-out-alt fa-fw mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+    <!-- Main Container -->
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style="margin-top: 80px;">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Tab Switcher -->
+            <div class="text-center">
+                <div class="bg-white rounded-lg shadow-lg p-2 inline-flex">
+                    <button id="loginTab" class="auth-tab active px-6 py-2 rounded-md font-medium transition-all">
+                        Login
+                    </button>
+                    <button id="signupTab" class="auth-tab px-6 py-2 rounded-md font-medium transition-all">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form bg-white rounded-lg shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Welcome Back</h2>
+                    <p class="text-gray-600 mt-2">Sign in to your Nova account</p>
+                </div>
+                
+                <form class="space-y-6" onsubmit="handleLogin(event)">
+                    <div>
+                        <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address
+                        </label>
+                        <input id="loginEmail" name="email" type="email" required
+                            class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your email">
+                    </div>
+                    
+                    <div>
+                        <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                            Password
+                        </label>
+                        <input id="loginPassword" name="password" type="password" required
+                            class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your password">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="rememberMe" name="remember" type="checkbox"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="rememberMe" class="ml-2 block text-sm text-gray-900">
+                                Remember me
+                            </label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                                Forgot password?
+                            </a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="auth-btn w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                    </button>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" class="auth-form hidden bg-white rounded-lg shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
+                    <p class="text-gray-600 mt-2">Join Nova marketplace today</p>
+                </div>
+                
+                <form class="space-y-6" onsubmit="handleSignup(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
+                                First Name
+                            </label>
+                            <input id="firstName" name="firstName" type="text" required
+                                class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="First name">
+                        </div>
+                        
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                                Last Name
+                            </label>
+                            <input id="lastName" name="lastName" type="text" required
+                                class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Last name">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address
+                        </label>
+                        <input id="signupEmail" name="email" type="email" required
+                            class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your email">
+                    </div>
+                    
+                    <div>
+                        <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                            Password
+                        </label>
+                        <input id="signupPassword" name="password" type="password" required
+                            class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Create a password">
+                    </div>
+                    
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                            Confirm Password
+                        </label>
+                        <input id="confirmPassword" name="confirmPassword" type="password" required
+                            class="auth-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Confirm your password">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="agreeTerms" name="terms" type="checkbox" required
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="agreeTerms" class="ml-2 block text-sm text-gray-900">
+                            I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms and Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="auth-btn w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors">
+                        <i class="fas fa-user-plus mr-2"></i>Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="errorToast" class="fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span id="errorMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

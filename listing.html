@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing Page</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="navbar">
+    <div class="container">
+        <div class="logo" style="margin-left: 6%;">Nova</div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="listing.html">All Products</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="addproduct.html">Add Product</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="user-actions" style="margin-right: 10%;">
+            <a href="cart.html" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </a>
+
+            <div id="userMenu" class="relative hidden">
+                <button id="userIcon" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg overflow-hidden">
+                    </button>
+                <div id="userDropdown" class="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-xl hidden">
+                    <div class="p-3 border-b text-center">
+                        <div class="font-semibold text-gray-800" id="dropdownUserName"></div>
+                        <div class="text-xs text-gray-500" id="dropdownUserEmail"></div>
+                    </div>
+                    <div class="p-2 border-b">
+                        <label for="profileUpload" class="cursor-pointer text-blue-600 text-sm hover:underline w-full text-left px-3 py-1.5 block rounded-md hover:bg-gray-100">
+                            <i class="fas fa-camera fa-fw mr-2"></i>Change Photo
+                        </label>
+                        <input type="file" id="profileUpload" class="hidden" accept="image/*">
+                    </div>
+                    <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                        <i class="fas fa-sign-out-alt fa-fw mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<div class="container mx-auto px-4 mb-6 flex justify-between gap-6">
+  <div class="relative">
+    <button id="filterBtn"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+      <i class="fas fa-filter"></i>
+      Filters
+    </button>
+
+    <div id="filterDropdown"
+      class="filter-dropdown absolute left-0 mt-2 w-80 bg-white rounded-lg shadow-xl border z-50 p-6">
+      <h3 class="text-lg font-semibold mb-4 text-gray-800">Filter Products</h3>
+
+      <div class="mb-6">
+        <h4 class="text-md font-medium mb-3 text-gray-700">Category</h4>
+        <div class="space-y-2">
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="category" value="all" class="mr-2 text-blue-600" checked>
+            <span class="text-gray-700">All Categories</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="category" value="Services" class="mr-2 text-blue-600">
+            <span class="text-gray-700">Services</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="category" value="Electronics" class="mr-2 text-blue-600">
+            <span class="text-gray-700">Electronics</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="category" value="Clothing" class="mr-2 text-blue-600">
+            <span class="text-gray-700">Clothing</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h4 class="text-md font-medium mb-3 text-gray-700">Price Range</h4>
+        <div class="space-y-2">
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="price" value="all" class="mr-2 text-blue-600" checked>
+            <span class="text-gray-700">All Prices</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="price" value="20000-40000" class="mr-2 text-blue-600">
+            <span class="text-gray-700">$20,000 - $40,000</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="price" value="0-20000" class="mr-2 text-blue-600">
+            <span class="text-gray-700">Under $20,000</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="price" value="40000-999999" class="mr-2 text-blue-600">
+            <span class="text-gray-700">Above $40,000</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button id="applyFilters"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex-1 transition-colors">
+          Apply Filters
+        </button>
+        <button id="clearFilters"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg flex-1 transition-colors">
+          Clear All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container mx-auto px-4 mb-6">
+        <div id="resultsInfo" class="text-gray-600 text-sm">
+            Showing <span id="resultCount">35</span> products
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 pb-8">
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+        
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No Products Found</h3>
+            <p class="text-gray-500">Try adjusting your filters to see more results.</p>
+        </div>
+    </div>
+
+
+    <footer class="bg-gray-800 text-gray-300 pt-12">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-8">
+
+            <div class="mb-6 md:mb-0">
+                <h3 class="text-2xl font-bold text-white mb-3">Nova</h3>
+                <p class="text-gray-400 mb-4">Your one-stop marketplace for quality Clothing, Electronics & Services.</p>
+                <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/share/171YadVXwP/" aria-label="Facebook" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/nova_makeket?igsh=eDEyNDB2MzczaTJ1" aria-label="Instagram" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/nova-market-place-a71b5a371?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" aria-label="LinkedIn" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="hover:text-blue-400 transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="hover:text-blue-400 transition-colors">Contact Us</a></li>
+                    <li><a href="listing.html" class="hover:text-blue-400 transition-colors">All Products</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Seller Central</h4>
+                <ul class="space-y-2">
+                    <li><a href="addproduct.html" class="hover:text-blue-400 transition-colors">Sell on Nova</a></li>
+                    <li><a href="dashboard.html" class="hover:text-blue-400 transition-colors">My Dashboard</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors">Seller Guide</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Stay Updated</h4>
+                <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest deals and updates.</p>
+                <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</footer>
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-xl p-6 w-96 relative">
+    <button id="closeModal" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+      ✕
+    </button>
+    <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Please Login / Signup</h2>
+    <p class="text-gray-600 text-sm mb-6 text-center">
+      You need to log in or create an account to add products to your cart.
+    </p>
+    <div class="flex gap-4 justify-center">
+      <a href="login.html?tab=signup" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Login</a>
+     <a href="login.html?tab=signup"class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">Signup</a>
+    </div>
+  </div>
+</div>
+
+
+    <script src="script.js">
+    </script>
+</body>
+</html>
