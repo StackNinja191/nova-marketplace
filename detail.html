@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
+        
         /* body {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #f0fdf4 50%, #fef7ed 75%, #fdf2f8 100%);
             background-size: 400% 400%;
@@ -222,7 +223,7 @@
             transform: translateX(0);
         }
 
-        @media (max-width: 768px) {
+        /* @media (max-width: 768px) {
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -250,11 +251,10 @@
             .product-price {
                 font-size: 2rem;
             }
-        }
+        } */
     </style>
 </head>
-<body class="min-h-screen">
-    <!-- Header -->
+<body class="bg-gray-50 flex flex-col min-h-screen overflow-x-hidden">
         <header class="navbar">
     <div class="container">
         <div class="logo">Nova</div>
@@ -302,7 +302,7 @@
     </div>
 </header>
     <!-- Main Content -->
-    <div class="pt-24 pb-6 min-h-fit">
+    <main class="flex-grow pt-24 pb-12">
         <div class="w-full max-w-7xl mx-auto px-4">
 
             <!-- Breadcrumb -->
@@ -416,7 +416,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Floating Cart -->
     <!-- <div id="floatingCart" class="floating-cart">
@@ -431,7 +431,7 @@
     </div>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-300 pt-12 mt-auto" class="Footer">
+  <footer class="bg-gray-800 text-gray-300 pt-12 mt-auto w-full" class="Footer">
     <div class="container mx-auto px-4">
         <!-- Main Footer Content -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-8">

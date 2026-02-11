@@ -1123,3 +1123,32 @@ body.modal-open footer {
 }
 
 
+/* --- Description aur Footer Fix --- */
+
+/* Footer ko hamesha page ke end par rakhne ke liye */
+footer {
+    margin-top: auto !important;
+    width: 100%;
+}
+
+/* Mobile screen par content aur side gap ka hal */
+@media (max-width: 768px) {
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Taake tabs ka content footer ke niche na jaye */
+    .tab-content {
+        padding-bottom: 40px; 
+        word-wrap: break-word;
+    }
+
+    /* Mobile par floating icons ko hatane ke liye (taki gap na aaye) */
+    .floating-element {
+        display: none !important;
+    }
+}
