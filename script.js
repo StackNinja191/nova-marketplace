@@ -1,3 +1,8 @@
+window.onerror = function(message, source, lineno, colno, error) {
+    alert("Error: " + message + "\nLine: " + lineno);
+    return true;
+};
+
 document.addEventListener('DOMContentLoaded', function () {
   if (window.location.pathname.includes('contact.html')) {
     const elements = document.querySelectorAll('.floating-element');
