@@ -181,7 +181,7 @@ if (categoryParam && categoryParam !== "all") {
 
 function createProductCard(product) {
     const card = document.createElement('div');
-    card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden fade-in relative';
+    card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden  relative';
 
     const currentUser = localStorage.getItem('userName');
     const isOwner = product.seller === currentUser;
