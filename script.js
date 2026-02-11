@@ -77,8 +77,9 @@ function getAllProducts() {
 //  PAGE CHECK: LISTING PAGE KE ELEMENTS SIRF TAB HANDLE KARO JAB WOH PAGE HO
 if (document.getElementById('productGrid')) {
   let allProducts = getAllProducts();
-  let filteredProducts = allProducts.slice(); // slice() array ki copy banata hai
+  let filteredProducts = [].concat(allProducts);
   let currentFilters = { category: 'all', price: 'all' };
+  
 
   const filterBtn = document.getElementById('filterBtn');
   const filterDropdown = document.getElementById('filterDropdown');
@@ -140,9 +141,9 @@ if (document.getElementById('productGrid')) {
     document.querySelector('input[name="category"][value="all"]').checked = true;
     document.querySelector('input[name="price"][value="all"]').checked = true;
     currentFilters = { category: 'all', price: 'all' };
-    filteredProducts = [...allProducts];
+    filteredProducts = [].concat(allProducts); // concat use karein
     renderProducts();
-  }
+}
 
   function renderProducts() {
     productGrid.innerHTML = '';
@@ -237,7 +238,7 @@ card.addEventListener('click', (e) => {
             <p class="text-gray-600 text-sm mb-3 line-clamp-2">${product.description}</p>
             ${product.seller ? `<p class="text-xs text-gray-500 mb-2">Seller: ${product.seller}</p>` : ''}
             <div class="flex justify-between items-center">
-                <span class="text-xl font-bold text-green-600">$${product.price.toLocaleString()}</span>
+                <span class="text-xl font-bold text-green-600">$${product.price}</span>
          <button class="add-to-cart-btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
     <i class="fas fa-shopping-cart mr-1"></i> Add to Cart
 </button>
