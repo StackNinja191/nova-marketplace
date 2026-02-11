@@ -70,10 +70,10 @@ const defaultProducts = [    // Electronics
 
 // Function to get all products (default + user added)
 function getAllProducts() {
-    const userProducts = JSON.parse(localStorage.getItem('userProducts') || '[]');
-    return [...defaultProducts, ...userProducts];
+    var userProducts = JSON.parse(localStorage.getItem('userProducts') || '[]');
+    // Spread (...) ki jagah .concat() use karein
+    return defaultProducts.concat(userProducts);
 }
-
 //  PAGE CHECK: LISTING PAGE KE ELEMENTS SIRF TAB HANDLE KARO JAB WOH PAGE HO
 if (document.getElementById('productGrid')) {
   let allProducts = getAllProducts();
