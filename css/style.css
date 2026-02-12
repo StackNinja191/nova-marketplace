@@ -1123,3 +1123,8 @@ body.modal-open footer {
 }
 
 
+/* Side Gap Fix */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden !important; /* Ye side ki extra space kaat dega */
+}
